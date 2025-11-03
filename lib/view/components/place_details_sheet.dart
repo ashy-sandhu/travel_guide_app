@@ -55,6 +55,7 @@ class _PlaceDetailsSheetState extends State<PlaceDetailsSheet> {
     }
 
     final profileProvider = context.read<UserProfileProvider>();
+    final wasSaved = _isSaved; // Capture current state before action
     final success = _isSaved
         ? await profileProvider.removePlace(
             userId: authProvider.user!.uid,
@@ -72,7 +73,7 @@ class _PlaceDetailsSheetState extends State<PlaceDetailsSheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              _isSaved ? 'Removed from favorites' : 'Saved to favorites!',
+              wasSaved ? 'Removed from favorites' : 'Saved to favorites!',
             ),
             backgroundColor: AppColors.success,
           ),

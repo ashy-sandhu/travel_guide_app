@@ -16,8 +16,38 @@ void main() async {
   runApp(const TravelGuideApp());
 }
 
-class TravelGuideApp extends StatelessWidget {
+class TravelGuideApp extends StatefulWidget {
   const TravelGuideApp({super.key});
+
+  @override
+  State<TravelGuideApp> createState() => _TravelGuideAppState();
+}
+
+class _TravelGuideAppState extends State<TravelGuideApp>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    // Handle app lifecycle changes
+    // IndexedStack in MainScreen already preserves state, but we ensure providers maintain state
+    if (state == AppLifecycleState.paused) {
+      // App is in background - state is automatically preserved by IndexedStack
+    } else if (state == AppLifecycleState.resumed) {
+      // App is back in foreground - state should be restored automatically
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

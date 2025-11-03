@@ -13,6 +13,7 @@ import '../components/place_details_sheet.dart';
 import '../components/location_permission_dialog.dart';
 import '../components/auto_scroll_list.dart';
 import '../components/places_map_card.dart';
+import '../components/menu_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,6 +24,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   bool get wantKeepAlive => true;
 
@@ -124,7 +127,12 @@ class _HomeScreenState extends State<HomeScreen>
     super.build(context); // Required for AutomaticKeepAliveClientMixin
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Travel Guide'),
+      key: _scaffoldKey,
+      appBar: CustomAppBar(
+        title: 'Travel Guide',
+        scaffoldKey: _scaffoldKey,
+      ),
+      drawer: const MenuDrawer(),
       body: Consumer<LocationProvider>(
         builder: (context, locationProvider, child) {
           // Show permission dialog if needed

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import 'menu_drawer.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback? onMenuTap;
   final List<Widget>? actions;
+  final GlobalKey<ScaffoldState>? scaffoldKey;
 
   const CustomAppBar({
     super.key,
     required this.title,
     this.onMenuTap,
     this.actions,
+    this.scaffoldKey,
   });
 
   @override
@@ -29,19 +32,23 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       shadowColor: AppColors.shadow,
       surfaceTintColor: Colors.transparent,
-      actions: [
-        IconButton(
-          onPressed: onMenuTap ?? () {
-            // Default menu action - show a simple dialog for now
+      leading: IconButton(
+        onPressed: onMenuTap ?? () {
+          // Open drawer if scaffoldKey is provided, otherwise show menu dialog
+          if (scaffoldKey?.currentState != null) {
+            scaffoldKey!.currentState!.openDrawer();
+          } else {
             _showMenuDialog(context);
-          },
-          icon: const Icon(
-            Icons.menu_rounded,
-            color: AppColors.iconPrimary,
-            size: 24,
-          ),
-          tooltip: 'Menu',
+          }
+        },
+        icon: const Icon(
+          Icons.menu_rounded,
+          color: AppColors.iconPrimary,
+          size: 24,
         ),
+        tooltip: 'Menu',
+      ),
+      actions: [
         if (actions != null) ...actions!,
         const SizedBox(width: 8),
       ],
@@ -64,17 +71,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   void _showMenuDialog(BuildContext context) {
-    showDialog(
+    // Fallback: Show drawer in a drawer-like dialog if scaffold is not available
+    showModalBottomSheet(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Menu'),
-        content: const Text('Menu options will be added here.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
-          ),
-        ],
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.9,
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: const MenuDrawer(),
       ),
     );
   }

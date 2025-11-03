@@ -5,6 +5,7 @@ import '../../state/providers/search_provider.dart';
 import '../../data/models/place_model.dart';
 import '../components/custom_app_bar.dart';
 import '../components/error_widget.dart';
+import '../components/place_details_sheet.dart';
 import 'place_card.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -213,12 +214,11 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _navigateToDetails(Place place) {
-    // TODO: Navigate to details screen
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Details for ${place.name}'),
-        duration: const Duration(seconds: 2),
-      ),
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => PlaceDetailsSheet(place: place),
     );
   }
 }

@@ -103,11 +103,20 @@ class AuthService {
         throw Exception('Google sign in failed');
       }
 
-      // Get or create user profile in Firestore
-      final appUser = await _getOrCreateUserProfile(user, 'google');
+      // Get or create user profile in Firestore with retry logic
+      AppUser appUser;
+      try {
+        appUser = await _getOrCreateUserProfile(user, 'google');
+      } catch (e) {
+        // Retry once if Firestore operation fails
+        await Future.delayed(const Duration(milliseconds: 500));
+        appUser = await _getOrCreateUserProfile(user, 'google');
+      }
       return appUser;
     } on FirebaseAuthException catch (e) {
       throw _handleAuthException(e);
+    } on FirebaseException catch (e) {
+      throw Exception('Firestore error: ${e.message ?? e.code}');
     } catch (e) {
       throw Exception('Google sign in failed: $e');
     }
@@ -177,13 +186,27 @@ class AuthService {
       if (user == null) {
         throw Exception('No user is currently signed in');
       }
+      if (user.email == null || user.email!.isEmpty) {
+        throw Exception('User email is not available');
+      }
       if (user.emailVerified) {
-        throw Exception('Email is already verified');
+        // Don't throw error, just return silently if already verified
+        return;
       }
       await user.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
-      throw _handleAuthException(e);
+      // Handle specific Firebase Auth errors
+      if (e.code == 'too-many-requests') {
+        throw Exception('Too many verification emails sent. Please wait a few minutes and try again.');
+      } else if (e.code == 'network-request-failed') {
+        throw Exception('Network error. Please check your internet connection.');
+      } else {
+        throw Exception('Failed to send verification email: ${e.message ?? e.code}');
+      }
     } catch (e) {
+      if (e.toString().contains('already verified')) {
+        return; // Silently return if already verified
+      }
       throw Exception('Failed to send verification email: $e');
     }
   }
@@ -209,25 +232,63 @@ class AuthService {
 
   // Get or create user profile in Firestore
   Future<AppUser> _getOrCreateUserProfile(User user, String provider) async {
-    final userDoc = _firestore.collection('users').doc(user.uid);
-    final userSnapshot = await userDoc.get();
+    try {
+      final userDoc = _firestore.collection('users').doc(user.uid);
+      final userSnapshot = await userDoc.get();
 
-    if (userSnapshot.exists) {
-      // User profile exists, update if needed
-      final data = userSnapshot.data()!;
-      return AppUser.fromFirestore(data, user.uid);
-    } else {
-      // Create new user profile
-      final appUser = AppUser.fromFirebaseAuth(
-        user.uid,
-        user.email ?? '',
-        displayName: user.displayName,
-        photoUrl: user.photoURL,
-        provider: provider,
-      );
+      if (userSnapshot.exists) {
+        // User profile exists, update if needed
+        final data = userSnapshot.data();
+        if (data == null) {
+          // If data is null, create new profile
+          final appUser = AppUser.fromFirebaseAuth(
+            user.uid,
+            user.email ?? '',
+            displayName: user.displayName,
+            photoUrl: user.photoURL,
+            provider: provider,
+          );
+          await userDoc.set(appUser.toFirestore());
+          return appUser;
+        }
+        return AppUser.fromFirestore(data, user.uid);
+      } else {
+        // Create new user profile
+        final appUser = AppUser.fromFirebaseAuth(
+          user.uid,
+          user.email ?? '',
+          displayName: user.displayName,
+          photoUrl: user.photoURL,
+          provider: provider,
+        );
 
-      await userDoc.set(appUser.toFirestore());
-      return appUser;
+        await userDoc.set(appUser.toFirestore());
+        return appUser;
+      }
+    } on FirebaseException catch (e) {
+      // If Firestore operation fails, return user from Firebase Auth as fallback
+      if (user.email != null) {
+        return AppUser.fromFirebaseAuth(
+          user.uid,
+          user.email!,
+          displayName: user.displayName,
+          photoUrl: user.photoURL,
+          provider: provider,
+        );
+      }
+      throw Exception('Failed to create user profile: ${e.message ?? e.code}');
+    } catch (e) {
+      // If any other error occurs, return user from Firebase Auth as fallback
+      if (user.email != null) {
+        return AppUser.fromFirebaseAuth(
+          user.uid,
+          user.email!,
+          displayName: user.displayName,
+          photoUrl: user.photoURL,
+          provider: provider,
+        );
+      }
+      throw Exception('Failed to get or create user profile: $e');
     }
   }
 

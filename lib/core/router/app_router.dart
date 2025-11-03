@@ -25,7 +25,12 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/home',
       name: 'home',
-      builder: (context, state) => const MainScreen(),
+      builder: (context, state) {
+        // Get tab index from query parameter
+        final tabParam = state.uri.queryParameters['tab'];
+        final tabIndex = tabParam != null ? int.tryParse(tabParam) : null;
+        return MainScreen(initialTabIndex: tabIndex);
+      },
     ),
     GoRoute(
       path: '/login',
