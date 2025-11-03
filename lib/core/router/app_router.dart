@@ -4,6 +4,7 @@ import 'package:travel_guide_app/view/screens/splash_screen.dart';
 import 'package:travel_guide_app/view/screens/explore_more_screen.dart';
 import 'package:travel_guide_app/view/screens/login_screen.dart';
 import 'package:travel_guide_app/view/screens/signup_screen.dart';
+import 'package:travel_guide_app/view/screens/email_verification_screen.dart';
 import 'package:travel_guide_app/view/screens/trips_screen.dart';
 import 'package:travel_guide_app/view/screens/saved_places_screen.dart';
 import 'package:travel_guide_app/view/screens/user_reviews_screen.dart';
@@ -35,6 +36,14 @@ final GoRouter appRouter = GoRouter(
       path: '/signup',
       name: 'signup',
       builder: (context, state) => const SignupScreen(),
+    ),
+    GoRoute(
+      path: '/email-verification',
+      name: 'email-verification',
+      builder: (context, state) {
+        final email = state.uri.queryParameters['email'];
+        return EmailVerificationScreen(email: email);
+      },
     ),
     GoRoute(
       path: '/explore-more',

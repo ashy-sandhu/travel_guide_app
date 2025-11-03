@@ -16,6 +16,12 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
   bool get isInitialized => _isInitialized;
+  
+  // Check if email is verified
+  bool get isEmailVerified {
+    final user = _authService.currentUser;
+    return user?.emailVerified ?? false;
+  }
 
   AuthProvider() {
     _init();
@@ -199,6 +205,36 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
 
       await _authService.sendPasswordReset(email: email);
+      _error = null;
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Check email verification status
+  Future<bool> checkEmailVerification() async {
+    try {
+      final isVerified = await _authService.checkEmailVerified();
+      notifyListeners();
+      return isVerified;
+    } catch (e) {
+      _error = e.toString();
+      notifyListeners();
+      return false;
+    }
+  }
+
+  // Resend verification email
+  Future<void> resendVerificationEmail() async {
+    try {
+      _isLoading = true;
+      _error = null;
+      notifyListeners();
+
+      await _authService.resendEmailVerification();
       _error = null;
     } catch (e) {
       _error = e.toString();

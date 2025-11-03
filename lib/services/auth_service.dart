@@ -63,6 +63,9 @@ class AuthService {
       await user.reload();
       final updatedUser = _auth.currentUser!;
 
+      // Send email verification
+      await sendEmailVerification();
+
       // Create user profile in Firestore
       final appUser = await _getOrCreateUserProfile(updatedUser, 'email');
       return appUser;
@@ -165,6 +168,43 @@ class AuthService {
     } catch (e) {
       throw Exception('Password reset failed: $e');
     }
+  }
+
+  // Send email verification
+  Future<void> sendEmailVerification() async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        throw Exception('No user is currently signed in');
+      }
+      if (user.emailVerified) {
+        throw Exception('Email is already verified');
+      }
+      await user.sendEmailVerification();
+    } on FirebaseAuthException catch (e) {
+      throw _handleAuthException(e);
+    } catch (e) {
+      throw Exception('Failed to send verification email: $e');
+    }
+  }
+
+  // Check if email is verified
+  Future<bool> checkEmailVerified() async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        return false;
+      }
+      await user.reload();
+      return _auth.currentUser?.emailVerified ?? false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Resend email verification
+  Future<void> resendEmailVerification() async {
+    await sendEmailVerification();
   }
 
   // Get or create user profile in Firestore

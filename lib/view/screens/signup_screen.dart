@@ -48,7 +48,8 @@ class _SignupScreenState extends State<SignupScreen> {
     if (!mounted) return;
 
     if (user != null) {
-      context.go('/home');
+      // Navigate to email verification screen
+      context.go('/email-verification?email=${Uri.encodeComponent(user.email)}');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

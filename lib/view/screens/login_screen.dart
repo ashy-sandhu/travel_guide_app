@@ -42,7 +42,28 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!mounted) return;
 
     if (user != null) {
-      context.go('/home');
+      // Check if email is verified
+      final isVerified = authProvider.isEmailVerified;
+      if (!isVerified) {
+        // Show warning and navigate to verification screen
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Please verify your email address to continue.'),
+            backgroundColor: AppColors.warning,
+            duration: const Duration(seconds: 3),
+            action: SnackBarAction(
+              label: 'Verify',
+              textColor: Colors.white,
+              onPressed: () {
+                context.go('/email-verification?email=${Uri.encodeComponent(user.email)}');
+              },
+            ),
+          ),
+        );
+        context.go('/email-verification?email=${Uri.encodeComponent(user.email)}');
+      } else {
+        context.go('/home');
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
