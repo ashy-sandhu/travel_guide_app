@@ -10,10 +10,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen> {
   bool _hasError = false;
-  String? _errorMessage;
 
   @override
   void initState() {
@@ -26,42 +24,12 @@ class _SplashScreenState extends State<SplashScreen>
     });
   }
 
-  TextStyle _getTitleStyle(BuildContext context) {
-    final baseStyle = Theme.of(context).textTheme.headlineLarge;
-    if (baseStyle == null) {
-      return const TextStyle(
-        color: AppColors.textOnPrimary,
-        fontWeight: FontWeight.bold,
-        fontSize: 32,
-      );
-    }
-    return baseStyle.copyWith(
-      color: AppColors.textOnPrimary,
-      fontWeight: FontWeight.bold,
-      fontSize: 32,
-    );
-  }
-
-  TextStyle _getSubtitleStyle(BuildContext context) {
-    final baseStyle = Theme.of(context).textTheme.titleMedium;
-    if (baseStyle == null) {
-      return TextStyle(
-        color: AppColors.textOnPrimary.withOpacity(0.9),
-        fontSize: 16,
-      );
-    }
-    return baseStyle.copyWith(
-      color: AppColors.textOnPrimary.withOpacity(0.9),
-      fontSize: 16,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -80,27 +48,10 @@ class _SplashScreenState extends State<SplashScreen>
                 width: 300,
                 height: 300,
                 child: _hasError
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.travel_explore,
-                            size: 150,
-                            color: AppColors.textOnPrimary,
-                          ),
-                          if (_errorMessage != null)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 16),
-                              child: Text(
-                                _errorMessage!,
-                                style: const TextStyle(
-                                  color: AppColors.textOnPrimary,
-                                  fontSize: 12,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                        ],
+                    ? const Icon(
+                        Icons.travel_explore,
+                        size: 150,
+                        color: AppColors.textOnPrimary,
                       )
                     : Lottie.asset(
                         'assets/animations/splash_screen.json',
@@ -122,31 +73,14 @@ class _SplashScreenState extends State<SplashScreen>
                             if (mounted) {
                               setState(() {
                                 _hasError = true;
-                                _errorMessage = 'Failed to load animation:\n${error.toString()}';
                               });
                             }
                           });
                           // Return fallback icon
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.travel_explore,
-                                size: 150,
-                                color: AppColors.textOnPrimary,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(top: 8),
-                                child: Text(
-                                  'Animation Error',
-                                  style: TextStyle(
-                                    color: AppColors.textOnPrimary,
-                                    fontSize: 12,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
+                          return const Icon(
+                            Icons.travel_explore,
+                            size: 150,
+                            color: AppColors.textOnPrimary,
                           );
                         },
                         frameBuilder: (context, child, frame) {
@@ -160,20 +94,27 @@ class _SplashScreenState extends State<SplashScreen>
                               ),
                             );
                           }
-                          return child;
+                          return child ?? const SizedBox();
                         },
                       ),
               ),
               const SizedBox(height: 40),
               // App Name
-              Text(
+              const Text(
                 'Travel Guide',
-                style: _getTitleStyle(context),
+                style: TextStyle(
+                  color: AppColors.textOnPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
+                ),
               ),
               const SizedBox(height: 8),
-              Text(
+              const Text(
                 'Discover amazing places',
-                style: _getSubtitleStyle(context),
+                style: TextStyle(
+                  color: AppColors.textOnPrimary,
+                  fontSize: 16,
+                ),
               ),
               const SizedBox(height: 60),
               // Loading indicator
