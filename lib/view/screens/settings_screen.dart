@@ -263,7 +263,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final passwordController = TextEditingController();
     final formKey = GlobalKey<FormState>();
     
-    final confirmed = await showDialog<bool>(
+    final password = await showDialog<String?>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Delete Account'),
@@ -307,7 +307,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
+            onPressed: () => Navigator.pop(context),
             child: const Text('Cancel'),
           ),
           TextButton(
@@ -325,9 +325,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     );
 
-    if (confirmed != null && confirmed is String) {
+    if (password != null && password.isNotEmpty) {
       // User confirmed deletion with password
-      _deleteAccount(confirmed);
+      _deleteAccount(password);
     }
   }
 
