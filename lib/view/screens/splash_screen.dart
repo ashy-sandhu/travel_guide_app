@@ -116,9 +116,10 @@ class _SplashScreenState extends State<SplashScreen> {
                       );
                     }
 
-                    // Load Lottie from string
+                    // Load Lottie from string - convert to bytes
+                    final bytes = utf8.encode(jsonString);
                     return Lottie.memory(
-                      utf8.encode(jsonString),
+                      bytes,
                       fit: BoxFit.contain,
                       repeat: false,
                       animate: true,
@@ -126,6 +127,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       height: 300,
                       errorBuilder: (context, error, stackTrace) {
                         debugPrint('=== LOTTIE MEMORY ERROR ===');
+                        debugPrint('Error type: ${error.runtimeType}');
                         debugPrint('Error: $error');
                         debugPrint('Stack trace: $stackTrace');
                         debugPrint('==========================');
@@ -194,7 +196,11 @@ class _SplashScreenState extends State<SplashScreen> {
       final data = await rootBundle.load('assets/animations/splash_screen.json');
       debugPrint('Asset loaded. Size: ${data.lengthInBytes} bytes');
       
-      final jsonString = String.fromCharCodes(data);
+      // Convert ByteData to String
+      final buffer = data.buffer;
+      final jsonString = utf8.decode(
+        buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+      );
       debugPrint('JSON string length: ${jsonString.length} characters');
       debugPrint('First 100 chars: ${jsonString.substring(0, jsonString.length > 100 ? 100 : jsonString.length)}');
       
