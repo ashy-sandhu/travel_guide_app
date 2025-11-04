@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
-        title: 'Travel Guide',
+        title: 'Pathio',
         scaffoldKey: _scaffoldKey,
       ),
       drawer: const MenuDrawer(),

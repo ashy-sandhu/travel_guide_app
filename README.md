@@ -1,6 +1,8 @@
-# travel_guide_app
+# Pathio
 
-A new Flutter project.
+**Your Path, Perfected.**
+
+A travel guide app built with Flutter that helps you discover amazing places around the world and plan your perfect trips.
 
 ## Getting Started
 

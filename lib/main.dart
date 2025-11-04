@@ -65,7 +65,7 @@ class _TravelGuideAppState extends State<TravelGuideApp>
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return MaterialApp.router(
-            title: 'Travel Guide',
+            title: 'Pathio',
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,

@@ -388,7 +388,7 @@ class AccountScreen extends StatelessWidget {
   void _showAboutDialog(BuildContext context) {
     showAboutDialog(
       context: context,
-      applicationName: 'Travel Guide',
+      applicationName: 'Pathio',
       applicationVersion: '1.0.0',
       applicationIcon: Container(
         width: 60,
@@ -404,7 +404,7 @@ class AccountScreen extends StatelessWidget {
         ),
       ),
       children: [
-        const Text('Discover amazing places around the world with our travel guide app.'),
+        const Text('Your Path, Perfected.\n\nDiscover amazing places around the world and plan your perfect trips with Pathio.'),
       ],
     );
   }

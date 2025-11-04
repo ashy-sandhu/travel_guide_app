@@ -19,9 +19,9 @@ class MenuDrawer extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('About Travel Guide'),
+        title: const Text('About Pathio'),
         content: const Text(
-          'Travel Guide App\nVersion 1.0.0\n\nDiscover amazing places around the world and plan your perfect trips.',
+          'Pathio\nVersion 1.0.0\n\nYour Path, Perfected.\n\nDiscover amazing places around the world and plan your perfect trips.',
         ),
         actions: [
           TextButton(

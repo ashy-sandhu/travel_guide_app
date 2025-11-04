@@ -51,7 +51,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
     final email = Uri(
       scheme: 'mailto',
       path: 'support@travelguideapp.com',
-      query: 'subject=Travel Guide App Support Request',
+      query: 'subject=Pathio Support Request',
     );
     if (await canLaunchUrl(email)) {
       await launchUrl(email);

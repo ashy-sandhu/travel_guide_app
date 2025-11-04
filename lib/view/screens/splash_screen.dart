@@ -72,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           ),
                           SizedBox(height: 16),
                           Text(
-                            'Travel Guide',
+                            'Pathio',
                             style: TextStyle(
                               color: AppColors.textOnPrimary,
                               fontSize: 24,
@@ -161,7 +161,7 @@ class _SplashScreenState extends State<SplashScreen> {
               const SizedBox(height: 40),
               // App Name
               const Text(
-                'Travel Guide',
+                'Pathio',
                 style: TextStyle(
                   color: AppColors.textOnPrimary,
                   fontWeight: FontWeight.bold,
@@ -170,7 +170,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               const SizedBox(height: 8),
               const Text(
-                'Discover amazing places',
+                'Your Path, Perfected.',
                 style: TextStyle(
                   color: AppColors.textOnPrimary,
                   fontSize: 16,
