@@ -33,6 +33,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
@@ -44,14 +45,23 @@ flutter:
     - assets/logo/
 
 
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo/app_icon.svg"
+  min_sdk_android: 21
+  adaptive_icon_background: "#F5F5F5"
+  adaptive_icon_foreground: "assets/logo/app_icon.svg"
+  web:
+    generate: true
+    image_path: "assets/logo/app_icon.svg"
+    background_color: "#F5F5F5"
+    theme_color: "#007AFF"
+  windows:
+    generate: true
+    image_path: "assets/logo/app_icon.svg"
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: "assets/logo/app_icon.svg"
+
