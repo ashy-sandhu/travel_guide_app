@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:convert';
 import '../../core/theme/app_colors.dart';
 
@@ -148,21 +149,13 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
             const SizedBox(height: 40),
-            // App Name
-            const Text(
-              'Pathio',
-              style: TextStyle(
-                color: AppColors.textPrimary,
-                fontWeight: FontWeight.bold,
-                fontSize: 32,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Your Path, Perfected.',
-              style: TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: 16,
+            // Splash Screen Logo (SVG)
+            SizedBox(
+              width: 240,
+              height: 75,
+              child: SvgPicture.asset(
+                'assets/logo/splashscreenicon.svg',
+                fit: BoxFit.contain,
               ),
             ),
             const SizedBox(height: 60),

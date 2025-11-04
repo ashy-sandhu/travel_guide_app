@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/theme/app_colors.dart';
 import 'menu_drawer.dart';
 
@@ -19,13 +20,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: AppColors.textPrimary,
-        ),
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 120,
+            height: 37.5,
+            child: SvgPicture.asset(
+              'assets/logo/appbaricon.svg',
+              fit: BoxFit.contain,
+            ),
+          ),
+        ],
       ),
       backgroundColor: AppColors.surface,
       foregroundColor: AppColors.textPrimary,

@@ -27,6 +27,7 @@ dependencies:
   firebase_storage: ^12.3.4
   lottie: ^3.1.2
   image_picker: ^1.1.2
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -40,6 +41,7 @@ flutter:
   assets:
     - assets/animations/splash_screen.json
     - assets/animations/Travel is fun.json
+    - assets/logo/
 
 
   # fonts:
