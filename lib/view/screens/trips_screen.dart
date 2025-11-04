@@ -126,9 +126,9 @@ class _TripsScreenState extends State<TripsScreen> {
                 child: trips.isEmpty
                     ? EmptyStateWidget(
                         icon: Icons.flight_takeoff,
-                        message: _selectedFilter == 'all'
-                            ? 'No trips yet\n\nCreate your first trip to start planning!'
-                            : 'No ${_selectedFilter} trips found',
+                        message: _selectedFilter != 'all'
+                            ? 'No $_selectedFilter trips found'
+                            : 'No trips yet\n\nCreate your first trip to start planning!',
                       )
                     : RefreshIndicator(
                         onRefresh: () async => _loadTrips(),
