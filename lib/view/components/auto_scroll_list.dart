@@ -32,15 +32,22 @@ class AutoScrollList extends StatefulWidget {
 class _AutoScrollListState extends State<AutoScrollList> {
   late ScrollController _scrollController;
   Timer? _autoScrollTimer;
+  Timer? _resumeTimer;
   bool _isPaused = false;
   bool _isHovered = false;
+  bool _isUserScrolling = false;
+  bool _isAutoScrolling = false;
   int _currentIndex = 0;
   bool _isInitialized = false;
+  double _lastScrollPosition = 0;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    
+    // Listen to scroll changes to detect manual scrolling
+    _scrollController.addListener(_onScrollChanged);
 
     // Initialize scroll position after first frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -54,8 +61,67 @@ class _AutoScrollListState extends State<AutoScrollList> {
   @override
   void dispose() {
     _autoScrollTimer?.cancel();
+    _resumeTimer?.cancel();
+    _scrollController.removeListener(_onScrollChanged);
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onScrollChanged() {
+    if (!_isInitialized) return;
+    
+    final currentPosition = _scrollController.position.pixels;
+    
+    // If position changed and we're not auto-scrolling, user is manually scrolling
+    if (!_isAutoScrolling && (_lastScrollPosition != currentPosition)) {
+      if (!_isUserScrolling) {
+        // User started scrolling manually
+        _isUserScrolling = true;
+        _pauseScroll();
+      }
+      
+      // Reset resume timer whenever user scrolls
+      _resumeTimer?.cancel();
+      _resumeTimer = Timer(const Duration(milliseconds: 1500), () {
+        // User stopped scrolling, resume auto-scroll
+        if (mounted && _isUserScrolling) {
+          _isUserScrolling = false;
+          _updateCurrentIndexFromScrollPosition();
+          _resumeScroll();
+        }
+      });
+    }
+    
+    _lastScrollPosition = currentPosition;
+  }
+
+  void _updateCurrentIndexFromScrollPosition() {
+    if (!mounted || !_isInitialized) return;
+    
+    final itemWidth = widget.itemWidth + 12;
+    final listLength = widget.places.length;
+    final currentPosition = _scrollController.position.pixels;
+    
+    // Calculate current index from scroll position
+    final calculatedIndex = (currentPosition / itemWidth).round();
+    
+    // Normalize to middle copy range [listLength ... 2*listLength-1]
+    if (calculatedIndex < listLength) {
+      _currentIndex = calculatedIndex + listLength;
+    } else if (calculatedIndex >= 2 * listLength) {
+      _currentIndex = calculatedIndex - listLength;
+    } else {
+      _currentIndex = calculatedIndex;
+    }
+    
+    // Ensure we're in the valid range
+    if (_currentIndex < listLength) {
+      _currentIndex += listLength;
+      _scrollController.jumpTo(_currentIndex * itemWidth);
+    } else if (_currentIndex >= 2 * listLength) {
+      _currentIndex -= listLength;
+      _scrollController.jumpTo(_currentIndex * itemWidth);
+    }
   }
 
   void _initializeScrollPosition() {
@@ -73,21 +139,23 @@ class _AutoScrollListState extends State<AutoScrollList> {
 
     final initialPosition = _currentIndex * itemWidth;
     _scrollController.jumpTo(initialPosition);
+    _lastScrollPosition = initialPosition;
     _isInitialized = true;
   }
 
   void _startAutoScroll() {
     if (widget.places.length <= 1) return;
 
+    _autoScrollTimer?.cancel();
     _autoScrollTimer = Timer.periodic(widget.pauseDuration, (timer) {
-      if (!_isPaused && !_isHovered && mounted) {
+      if (!_isPaused && !_isHovered && !_isUserScrolling && mounted) {
         _moveToNextCard();
       }
     });
   }
 
   void _moveToNextCard() {
-    if (!mounted || widget.places.isEmpty || !_isInitialized) return;
+    if (!mounted || widget.places.isEmpty || !_isInitialized || _isUserScrolling) return;
 
     final itemWidth = widget.itemWidth + 12;
     final listLength = widget.places.length;
@@ -101,6 +169,10 @@ class _AutoScrollListState extends State<AutoScrollList> {
 
     final targetPosition = _currentIndex * itemWidth;
 
+    // Mark that we're auto-scrolling
+    _isAutoScrolling = true;
+    _lastScrollPosition = _scrollController.position.pixels;
+
     // Animate to target
     _scrollController
         .animateTo(
@@ -110,6 +182,9 @@ class _AutoScrollListState extends State<AutoScrollList> {
         )
         .then((_) {
           if (!mounted) return;
+          
+          _isAutoScrolling = false;
+          _lastScrollPosition = _scrollController.position.pixels;
 
           // Check boundaries and jump if needed (seamless loop)
           if (widget.reverseDirection) {
@@ -118,6 +193,7 @@ class _AutoScrollListState extends State<AutoScrollList> {
               _currentIndex += listLength;
               final jumpPosition = _currentIndex * itemWidth;
               _scrollController.jumpTo(jumpPosition);
+              _lastScrollPosition = jumpPosition;
             }
           } else {
             // If we've scrolled too far right (past middle copy), jump to equivalent position in middle copy
@@ -125,6 +201,7 @@ class _AutoScrollListState extends State<AutoScrollList> {
               _currentIndex -= listLength;
               final jumpPosition = _currentIndex * itemWidth;
               _scrollController.jumpTo(jumpPosition);
+              _lastScrollPosition = jumpPosition;
             }
           }
         });
@@ -135,9 +212,12 @@ class _AutoScrollListState extends State<AutoScrollList> {
       _isPaused = true;
     });
     _autoScrollTimer?.cancel();
+    _resumeTimer?.cancel();
   }
 
   void _resumeScroll() {
+    if (_isUserScrolling) return; // Don't resume if user is still scrolling
+    
     setState(() {
       _isPaused = false;
     });
@@ -182,7 +262,7 @@ class _AutoScrollListState extends State<AutoScrollList> {
           child: ListView.builder(
             controller: _scrollController,
             scrollDirection: Axis.horizontal,
-            physics: const NeverScrollableScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             itemCount: infinitePlaces.length,
             itemBuilder: (context, index) {
               final place = infinitePlaces[index];
