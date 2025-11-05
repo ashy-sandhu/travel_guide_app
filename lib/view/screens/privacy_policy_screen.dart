@@ -126,7 +126,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               [
                 'If you have any questions about this Privacy Policy, please contact us at:',
                 '',
-                'Email: support@travelguideapp.com',
+                'Email: ahsan.build@gmail.com',
                 '',
                 'We will respond to your inquiry within a reasonable timeframe.',
               ],
