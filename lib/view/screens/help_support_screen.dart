@@ -50,7 +50,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   Future<void> _launchEmail() async {
     final email = Uri(
       scheme: 'mailto',
-      path: 'support@travelguideapp.com',
+      path: 'ahsan.build@gmail.com',
       query: 'subject=Pathio Support Request',
     );
     if (await canLaunchUrl(email)) {
@@ -160,10 +160,17 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _messageController,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Message',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.message),
+                          border: const OutlineInputBorder(),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.only(top: 12.0),
+                            child: Icon(Icons.message),
+                          ),
+                          prefixIconConstraints: const BoxConstraints(
+                            minWidth: 48,
+                            minHeight: 48,
+                          ),
                           alignLabelWithHint: true,
                         ),
                         maxLines: 5,
@@ -209,7 +216,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
               child: ListTile(
                 leading: const Icon(Icons.email, color: AppColors.primary),
                 title: const Text('Email Us Directly'),
-                subtitle: const Text('support@travelguideapp.com'),
+                subtitle: const Text('ahsan.build@gmail.com'),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: _launchEmail,
               ),

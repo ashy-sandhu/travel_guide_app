@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/theme/app_colors.dart';
 import '../../state/providers/auth_provider.dart';
 import '../components/custom_app_bar.dart';
@@ -397,10 +398,11 @@ class AccountScreen extends StatelessWidget {
           color: AppColors.primary,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: const Icon(
-          Icons.travel_explore,
-          color: Colors.white,
-          size: 30,
+        padding: const EdgeInsets.all(12),
+        child: SvgPicture.asset(
+          'assets/logo/app_icon.svg',
+          fit: BoxFit.contain,
+          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
       ),
       children: [
