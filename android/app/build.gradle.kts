@@ -20,6 +20,20 @@ android {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
+android {
+    namespace = "com.example.travel_guide_app"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.travel_guide_app"
@@ -29,6 +43,18 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        
+        // Load Google Maps API key from local.properties or environment variable
+        val localProperties = java.util.Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.inputStream().use { localProperties.load(it) }
+        }
+        val googleMapsApiKey = localProperties.getProperty("GOOGLE_MAPS_API_KEY") 
+            ?: System.getenv("GOOGLE_MAPS_API_KEY") 
+            ?: "YOUR_API_KEY_HERE"
+        
+        resValue("string", "google_maps_api_key", googleMapsApiKey)
     }
 
     buildTypes {
