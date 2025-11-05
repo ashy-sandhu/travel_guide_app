@@ -184,7 +184,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<String> _loadAnimationAsset() async {
     try {
       debugPrint('Loading animation asset...');
-      final data = await rootBundle.load('assets/animations/Travel is fun.json');
+      final data = await rootBundle.load('assets/animations/splash_screen.json');
       debugPrint('Asset loaded. Size: ${data.lengthInBytes} bytes');
       
       // Convert ByteData to String
