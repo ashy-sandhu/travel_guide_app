@@ -39,6 +39,7 @@ flutter:
   assets:
     - assets/animations/splash_screen.json
     - assets/logo/
+    - screenshots/
 
 
 flutter_launcher_icons:
