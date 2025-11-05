@@ -48,13 +48,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               tooltip: 'Menu',
             ),
             const SizedBox(width: 4),
-            SizedBox(
-              width: 140,
-              height: 40,
-              child: SvgPicture.asset(
-                'assets/logo/appbaricon.svg',
-                fit: BoxFit.contain,
-                alignment: Alignment.centerLeft,
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: SizedBox(
+                width: 180,
+                height: 80,
+                child: SvgPicture.asset(
+                  'assets/logo/appbaricon.svg',
+                  fit: BoxFit.contain,
+                  alignment: Alignment.centerLeft,
+                ),
               ),
             ),
             const Spacer(),
