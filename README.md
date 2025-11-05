@@ -1,7 +1,7 @@
 # Pathio
 
-<div >
-  <img src="assets/logo/app_icon.png" alt="Pathio Logo" width="1024" height="1024"/>
+<div align="center">
+  <img src="assets/logo/app_icon.png" alt="Pathio Logo" width="120" height="120"/>
   
   **Your Path, Perfected.**
   
@@ -19,38 +19,38 @@
 
 ## 📱 Screenshots
 
-<div >
+<div align="center">
   <table>
     <tr>
-      <td >
+      <td align="center">
         <img src="screenshots/splash_screen.png" alt="Splash Screen" width="1080"/>
         <br/>
         <b>Splash Screen</b>
       </td>
-      <td >
+      <td align="center">
         <img src="screenshots/home_screen.png" alt="Home Screen" width="1080"/>
         <br/>
         <b>Home Screen</b>
       </td>
-      <td >
+      <td align="center">
         <img src="screenshots/search_screen.png" alt="Search Screen" width="1080"/>
         <br/>
         <b>Search & Discover</b>
       </td>
     </tr>
     <tr>
-      <td >
+      <td align="center">
         <img src="screenshots/trips_screen.png" alt="Trips Screen" width="1080"/>
         <br/>
         <b>My Trips</b>
       </td>
-      <td >
+      <td align="center">
         <img src="screenshots/place_details.png" alt="Place Details" width="1080"/>
         <br/>
         <b>Place Details</b>
       </td>
-      <td >
-        <img src="screenshots/app_drawer_screen.png" alt="Account Screen" width="1080"/>
+      <td align="center">
+        <img src="screenshots/account_screen.png" alt="Account Screen" width="200"/>
         <br/>
         <b>Account & Settings</b>
       </td>
@@ -406,7 +406,7 @@ For support, email **ahsan.build@gmail.com** or open an issue in the repository.
 
 ---
 
-<div >
+<div align="center">
   Made with ❤️ using Flutter
   
   **Pathio - Your Path, Perfected.**
