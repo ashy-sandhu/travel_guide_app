@@ -43,8 +43,13 @@ flutter:
 
 flutter_launcher_icons:
   android: true
-  image_path: "assets/logo/app_icon.png"
-  min_sdk_android: 21
-  adaptive_icon_background: "#F5F5F5"
-  adaptive_icon_foreground: "assets/logo/app_icon.png"
+  ios: false # Set to false if you're only targeting Android
+
+  # Path for the standard icon (for older Android/iOS versions)
+  # You can use the same foreground image here.
+  image_path: "assets/logo/abc.png"
+
+  # Adaptive Icon specific settings for modern Android
+  adaptive_icon_background: "#F5F5F5" # Your desired background color
+  adaptive_icon_foreground: "assets/logo/abc.png" # Path to your foreground image
 
