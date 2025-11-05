@@ -57,7 +57,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           onPressed: () {
-            // TODO: Implement notification functionality
+            // Notification functionality will be implemented in future update
           },
           icon: const Icon(
             Icons.notifications_outlined,
