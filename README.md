@@ -10,6 +10,9 @@
   [![Flutter](https://img.shields.io/badge/Flutter-3.9.2-blue.svg)](https://flutter.dev/)
   [![Dart](https://img.shields.io/badge/Dart-3.9.2-blue.svg)](https://dart.dev/)
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+  
+  [![GitHub](https://img.shields.io/badge/GitHub-Repository-black.svg)](https://github.com/ashy-sandhu/Pathio)
+  [![Portfolio](https://img.shields.io/badge/Portfolio-ahsan--malik.netlify.app-orange.svg)](https://ahsan-malik.netlify.app)
 </div>
 
 ---
@@ -144,7 +147,7 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/pathio.git
+git clone https://github.com/ashy-sandhu/Pathio.git
 cd pathio
 ```
 
@@ -359,6 +362,16 @@ This app uses a **Django REST API** backend for fetching places, cities, and cou
 - **Hosted on**: Railway
 - **Provides**: RESTful endpoints for places, cities, and countries data
 
+## 👨‍💻 Author
+
+**Ahsan Malik**
+
+- Portfolio: [ahsan-malik.netlify.app](https://ahsan-malik.netlify.app)
+- GitHub: [@ashy-sandhu](https://github.com/ashy-sandhu)
+- Email: ahsan.build@gmail.com
+
+---
+
 ## 🙏 Acknowledgments
 
 - **Flutter Team** - For the amazing framework
@@ -370,9 +383,14 @@ This app uses a **Django REST API** backend for fetching places, cities, and cou
 
 ---
 
-## 📞 Support
+## 📞 Support & Contact
 
-For support, email ahsan.build@gmail.com or open an issue in the repository.
+For support, email **ahsan.build@gmail.com** or open an issue in the repository.
+
+**Links:**
+- 🌐 **Portfolio**: [ahsan-malik.netlify.app](https://ahsan-malik.netlify.app)
+- 💻 **GitHub**: [@ashy-sandhu](https://github.com/ashy-sandhu)
+- 📧 **Email**: ahsan.build@gmail.com
 
 ---
 
