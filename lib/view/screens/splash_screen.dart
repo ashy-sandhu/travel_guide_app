@@ -153,9 +153,9 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             const SizedBox(height: 40),
             // Splash Screen Logo (SVG) - Centered
-            SizedBox(
-              width: double.infinity,
-              child: Center(
+            Center(
+              child: FittedBox(
+                fit: BoxFit.contain,
                 child: SizedBox(
                   width: 240,
                   height: 75,
