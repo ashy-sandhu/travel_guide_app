@@ -62,8 +62,7 @@ ios/Runner/GoogleService-Info.plist
 android/local.properties
 **/local.properties
 
-# Screenshots (keep README, ignore images)
+# Screenshots (ignore images)
 screenshots/*.png
 screenshots/*.jpg
 screenshots/*.jpeg
-!screenshots/README.md
